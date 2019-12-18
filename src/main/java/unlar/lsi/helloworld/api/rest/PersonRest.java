@@ -33,13 +33,13 @@ public class PersonRest {
         return ResponseEntity.ok(personService.findAll());
     }
 
-    @PostMapping(value = "/person")
+    @PostMapping(value = "/peoples/create")
     public ResponseEntity create(@Valid @RequestBody Person entity) {
         return ResponseEntity.ok(personService.save(entity));
     }
 
     @GetMapping("/people/{id}")
-    public ResponseEntity<Person> findById(Long id) {
+    public ResponseEntity<Person> findById(@PathVariable Long id) {
         Optional<Person> person = personService.findById(id);
         if (!person.isPresent()) {
 
@@ -48,7 +48,7 @@ public class PersonRest {
         return ResponseEntity.ok(person.get());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/people/update/{id}")
     public ResponseEntity<Person> update(@PathVariable Long id, @Valid @RequestBody Person entity) {
         if (!personService.findById(id).isPresent()) {
 
@@ -58,7 +58,7 @@ public class PersonRest {
         return ResponseEntity.ok(personService.save(entity));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/peoples/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         if (!personService.findById(id).isPresent()) {
 
@@ -67,6 +67,6 @@ public class PersonRest {
 
         personService.deleteById(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
